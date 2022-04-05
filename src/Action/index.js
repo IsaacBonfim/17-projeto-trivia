@@ -1,4 +1,5 @@
 export const TOKEN = 'TOKEN';
+export const SEND_INFO = 'SEND_INFO';
 
 export const apiToken = (token) => (
   {
@@ -20,3 +21,8 @@ export const getToken = () => (
     }
   }
 );
+
+export const sendInfoPlayer = (value) => ({
+  type: SEND_INFO,
+  value,
+});

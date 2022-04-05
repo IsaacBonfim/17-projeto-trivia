@@ -1,7 +1,8 @@
 import React from 'react';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getToken } from '../Action';
+import { getToken, sendInfoPlayer } from '../Action';
+
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -37,10 +38,13 @@ class Login extends React.Component {
 
   validEmail = (email) => /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email)
 
-  redirectToGame = () => {
-    const { dispatch, history } = this.props;
+  handleClickButton = () => {
+    const { fetchToken, sendInfo, history } = this.props;
+    const { name, email } = this.state;
 
-    dispatch(getToken());
+    sendInfo({ email, name });
+
+    fetchToken();
 
     history.push('/game');
   }
@@ -69,7 +73,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-play"
           disabled={ btnDisabled }
-          onClick={ this.redirectToGame }
+          onClick={ this.handleClickButton }
         >
           Play
         </button>
@@ -78,15 +82,20 @@ class Login extends React.Component {
   }
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-
-// });
+const mapDispatchToProps = (dispatch) => ({
+  sendInfo: (state) => dispatch(sendInfoPlayer(state)),
+  fetchToken: () => dispatch(getToken()),
+});
 
 Login.propTypes = {
-  dispatch: PropType.func.isRequired,
-  history: PropType.shape({
-    push: PropType.string,
+  fetchToken: PropTypes.func.isRequired,
+  sendInfo: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+  })).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-export default connect()(Login);
+export default connect(null, mapDispatchToProps)(Login);
