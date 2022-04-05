@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import reducer from './reducer';
-import apiToken from './token';
+import token from './token';
 
 const rootReducer = combineReducers({
   reducer,
-  apiToken,
+  token,
 });
 
 export default rootReducer;
