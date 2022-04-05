@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import sendInfoPlayer from '../Action';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -30,6 +33,14 @@ class Login extends React.Component {
 
   validEmail = (email) => /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email)
 
+  handleClickButton = () => {
+    const { sendInfo, history } = this.props;
+    const { name, email } = this.state;
+    sendInfo({ email, name });
+
+    history.push('/game');
+  }
+
   render() {
     const { btnDisabled, name, email } = this.state;
     return (
@@ -53,6 +64,7 @@ class Login extends React.Component {
           type="button"
           data-testid="btn-play"
           disabled={ btnDisabled }
+          onClick={ this.handleClickButton }
         >
           Play
         </button>
@@ -61,4 +73,18 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  sendInfo: (state) => dispatch(sendInfoPlayer(state)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  sendInfo: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+  })).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
