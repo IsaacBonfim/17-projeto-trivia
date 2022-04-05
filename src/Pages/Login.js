@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import sendInfoPlayer from '../Action';
+import { getToken, sendInfoPlayer } from '../Action';
+
 import logo from '../trivia.png';
 
 class Login extends React.Component {
   constructor() {
     super();
+
     this.state = {
       name: '',
       email: '',
@@ -16,16 +18,19 @@ class Login extends React.Component {
 
   handleChange = ({ target }) => {
     const { name, value } = target;
+
     this.setState({
       [name]: value,
     }, () => this.validButton());
   }
 
   validButton = () => {
-    let button = true;
-    const number = 2;
     const { email, name } = this.state;
+    const number = 2;
+    let button = true;
+
     if (name.length > number && this.validEmail(email)) button = false;
+
     this.setState({
       btnDisabled: button,
     });
@@ -34,28 +39,32 @@ class Login extends React.Component {
   validEmail = (email) => /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email)
 
   handleClickButton = () => {
-    const { sendInfo, history } = this.props;
+    const { fetchToken, sendInfo, history } = this.props;
     const { name, email } = this.state;
+
     sendInfo({ email, name });
+
+    fetchToken();
 
     history.push('/game');
   }
 
   render() {
     const { btnDisabled, name, email } = this.state;
+
     return (
       <main>
         <img src={ logo } className="App-logo" alt="logo" />
         <input
           type="text"
-          data-testid="input-player-name"
           name="name"
+          data-testid="input-player-name"
           value={ name }
           onChange={ this.handleChange }
         />
         <input
-          name="email"
           type="email"
+          name="email"
           data-testid="input-gravatar-email"
           value={ email }
           onChange={ this.handleChange }
@@ -75,11 +84,11 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   sendInfo: (state) => dispatch(sendInfoPlayer(state)),
+  fetchToken: () => dispatch(getToken()),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
-
 Login.propTypes = {
+  fetchToken: PropTypes.func.isRequired,
   sendInfo: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string,
     email: PropTypes.string,
@@ -88,3 +97,5 @@ Login.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(Login);
