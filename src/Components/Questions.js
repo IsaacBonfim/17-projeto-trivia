@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-closing-tag-location */
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,12 +14,12 @@ class Questions extends React.Component {
       position: 0,
       answers: [],
       isDisable: false,
+      isNext: false,
     };
   }
 
   async componentDidMount() {
     const { token, fetchQuestions } = this.props;
-    console.log(token);
     await fetchQuestions(token);
 
     const { question } = this.props;
@@ -32,10 +33,9 @@ class Questions extends React.Component {
 
     const array = [...incorrects, corrects];
     const consttest = this.shuffleArray(array);
-    console.log(consttest);
     this.setState({
       isLoading: false,
-      answers: array,
+      answers: consttest,
     });
 
     this.couter();
@@ -47,16 +47,9 @@ class Questions extends React.Component {
   }
 
   nextAnswer = ({ target }) => {
-  /*  const { question } = this.props;
-    console.log(question); */
-    /* console.log(target); */
-    // this.setState(({ position }) => ({
-    //   position: position === question.results.length - 1 ? 0
-    //     : position + 1,
-    // }));
+    this.setState({ isNext: true });
     const li = target.parentNode;
     const buttons = li.childNodes;
-    console.log(buttons);
     buttons.forEach((button) => {
       const dataTest = button.getAttribute('data-testid');
       if (dataTest === 'correct-answer') {
@@ -67,7 +60,7 @@ class Questions extends React.Component {
     });
   }
 
-  couter() {
+  couter = () => {
     const seconds = 30000;
     setTimeout(() => {
       this.setState({
@@ -76,9 +69,33 @@ class Questions extends React.Component {
     }, seconds);
   }
 
+  nextQuestion = () => {
+    const { question } = this.props;
+    this.setState(({ position }) => ({
+      position: position === question.results.length - 1 ? 0
+        : position + 1,
+      isNext: false,
+    }), () => {
+      const { position } = this.state;
+      const incorrects = question.results[position]
+        .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
+      const corrects = {
+        answersOption: question.results[0]
+          .correct_answer,
+        isCorrect: true,
+      };
+      const array = [...incorrects, corrects];
+      const consttest = this.shuffleArray(array);
+      this.setState({
+        isLoading: false,
+        answers: consttest,
+      });
+    });
+  }
+
   render() {
     const { question } = this.props;
-    const { isLoading, position, answers, isDisable } = this.state;
+    const { isLoading, position, answers, isNext, isDisable } = this.state;
 
     return (
       <section>
@@ -111,6 +128,15 @@ class Questions extends React.Component {
                     ))}
                   </li>
                 </ul>
+                { isNext
+                && (
+                  <button
+                    type="button"
+                    data-testid="btn-next"
+                    onClick={ this.nextQuestion }
+                  >
+                    Next
+                  </button>)}
 
               </section>
             //   <Question
@@ -118,7 +144,7 @@ class Questions extends React.Component {
             //     category={ question.results[0].category }
             //     correctAnswer={ question.results[0].correct_answer }
             //     incorrectAnswers={ question.results[0].incorrect_answers[0] }
-            //   />
+            //   />  ---  favor nao apagar.
             )
         }
       </section>
