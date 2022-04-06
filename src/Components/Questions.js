@@ -32,8 +32,6 @@ class Questions extends React.Component {
     const array = [...incorrects, corrects];
     const consttest = this.shuffleArray(array);
     console.log(consttest);
-    // const random = array[Math.floor(Math.random() * array.length)];
-    // console.log(random);
     this.setState({
       isLoading: false,
       answers: array,
@@ -48,17 +46,10 @@ class Questions extends React.Component {
   nextAnswer = () => {
     const { question } = this.props;
     console.log(question);
-    this.setState(({ position }) => ({
-      position: position === question.results.length - 1 ? 0
-        : position + 1,
-    }));
-  }
-
-  handleTestId = (elem, index) => {
-    if (elem.isCorrect) {
-      return 'correct-answer';
-    }
-    return `wrong-answer-${index}`;
+    // this.setState(({ position }) => ({
+    //   position: position === question.results.length - 1 ? 0
+    //     : position + 1,
+    // }));
   }
 
   render() {
@@ -77,21 +68,24 @@ class Questions extends React.Component {
                   { question.results[position].category }
                 </h1>
                 <p data-testid="question-text">{ question.results[position].question }</p>
-                <ul data-testid="answer-options">
-                  { answers.map((elem, index) => (
-                    <li key={ index }>
+                <ul>
+                  <li data-testid="answer-options">
+                    { answers.map((elem, index) => (
                       <button
+                        key={ index }
                         type="button"
                         onClick={ this.nextAnswer }
                         data-testid={ elem.isCorrect
-                          ? 'correct-answer' : `wrong-answer-${index}` }
+                          ? 'correct-answer'
+                          : `wrong-answer-${answers.findIndex((ind) => ind
+                            .isCorrect) < index ? index - 1 : index}` }
                       >
                         { elem.answersOption }
                       </button>
-                    </li>
-                  ))}
-                  {/* data-testid= */}
+                    ))}
+                  </li>
                 </ul>
+
               </section>
             //   <Question
             //     questionAPI={ question.results[0].question }
