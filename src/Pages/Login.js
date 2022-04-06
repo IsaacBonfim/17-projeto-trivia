@@ -16,6 +16,12 @@ class Login extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { fetchToken } = this.props;
+    console.log('oi');
+    fetchToken();
+  }
+
   handleChange = ({ target }) => {
     const { name, value } = target;
 
@@ -39,13 +45,10 @@ class Login extends React.Component {
   validEmail = (email) => /^[\w+.]+@\w+\.\w{2,}(?:\.\w{2})?$/.test(email)
 
   handleClickButton = () => {
-    const { fetchToken, sendInfo, history } = this.props;
+    const { sendInfo, history } = this.props;
     const { name, email } = this.state;
 
     sendInfo({ email, name });
-
-    fetchToken();
-
     history.push('/game');
   }
 
