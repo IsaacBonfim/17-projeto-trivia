@@ -43,13 +43,25 @@ class Questions extends React.Component {
     return array.sort(() => Math.random() - NUMBER);
   }
 
-  nextAnswer = () => {
-    const { question } = this.props;
-    console.log(question);
+  nextAnswer = ({ target }) => {
+  /*  const { question } = this.props;
+    console.log(question); */
+    /* console.log(target); */
     // this.setState(({ position }) => ({
     //   position: position === question.results.length - 1 ? 0
     //     : position + 1,
     // }));
+    const li = target.parentNode;
+    const buttons = li.childNodes;
+    console.log(buttons);
+    buttons.forEach((button) => {
+      const dataTest = button.getAttribute('data-testid');
+      if (dataTest === 'correct-answer') {
+        button.className = 'green-border';
+      } else {
+        button.className = 'red-border';
+      }
+    });
   }
 
   render() {
@@ -73,12 +85,13 @@ class Questions extends React.Component {
                     { answers.map((elem, index) => (
                       <button
                         key={ index }
+                        id={ index }
                         type="button"
-                        onClick={ this.nextAnswer }
                         data-testid={ elem.isCorrect
                           ? 'correct-answer'
                           : `wrong-answer-${answers.findIndex((ind) => ind
                             .isCorrect) < index ? index - 1 : index}` }
+                        onClick={ this.nextAnswer }
                       >
                         { elem.answersOption }
                       </button>
