@@ -50,7 +50,7 @@ class Questions extends React.Component {
     // this.setState(({ position }) => ({
     //   position: position === question.results.length - 1 ? 0
     //     : position + 1,
-    // }));
+    // })); ----
     const li = target.parentNode;
     const buttons = li.childNodes;
     console.log(buttons);
