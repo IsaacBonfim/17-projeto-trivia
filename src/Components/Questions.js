@@ -12,6 +12,7 @@ class Questions extends React.Component {
       isLoading: true,
       position: 0,
       answers: [],
+      isDisable: false,
     };
   }
 
@@ -36,6 +37,8 @@ class Questions extends React.Component {
       isLoading: false,
       answers: array,
     });
+
+    this.couter();
   }
 
   shuffleArray = (array) => {
@@ -64,9 +67,18 @@ class Questions extends React.Component {
     });
   }
 
+  couter() {
+    const seconds = 30000;
+    setTimeout(() => {
+      this.setState({
+        isDisable: true,
+      });
+    }, seconds);
+  }
+
   render() {
     const { question } = this.props;
-    const { isLoading, position, answers } = this.state;
+    const { isLoading, position, answers, isDisable } = this.state;
 
     return (
       <section>
@@ -92,6 +104,7 @@ class Questions extends React.Component {
                           : `wrong-answer-${answers.findIndex((ind) => ind
                             .isCorrect) < index ? index - 1 : index}` }
                         onClick={ this.nextAnswer }
+                        disabled={ isDisable }
                       >
                         { elem.answersOption }
                       </button>
