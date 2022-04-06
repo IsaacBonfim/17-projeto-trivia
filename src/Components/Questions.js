@@ -116,13 +116,14 @@ class Questions extends React.Component {
                   </li>
                 </ul>
                 { isNext
-                && <button
-                  type="button"
-                  data-testid="btn-next"
-                  onClick={ this.nextQuestion }
-                >
-                  Next
-                </button>}
+                && (
+                  <button
+                    type="button"
+                    data-testid="btn-next"
+                    onClick={ this.nextQuestion }
+                  >
+                    Next
+                  </button>)}
 
               </section>
             //   <Question
