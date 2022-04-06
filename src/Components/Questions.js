@@ -130,7 +130,7 @@ class Questions extends React.Component {
             //     category={ question.results[0].category }
             //     correctAnswer={ question.results[0].correct_answer }
             //     incorrectAnswers={ question.results[0].incorrect_answers[0] }
-            //   />
+            //   />  ---  favor nao apagar.
             )
         }
       </section>
