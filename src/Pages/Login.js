@@ -51,6 +51,7 @@ class Login extends React.Component {
 
   render() {
     const { btnDisabled, name, email } = this.state;
+    const { history } = this.props;
 
     return (
       <main>
@@ -77,6 +78,13 @@ class Login extends React.Component {
         >
           Play
         </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+        >
+          Configuração
+        </button>
       </main>
     );
   }
@@ -89,10 +97,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Login.propTypes = {
   fetchToken: PropTypes.func.isRequired,
-  sendInfo: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    email: PropTypes.string,
-  })).isRequired,
+  sendInfo: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
