@@ -10,6 +10,13 @@ class Game extends React.Component {
       <section>
         <Header />
         <Questions history={ history } />
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
       </section>
     );
   }
