@@ -18,7 +18,6 @@ class Login extends React.Component {
 
   componentDidMount() {
     const { fetchToken } = this.props;
-    console.log('oi');
     fetchToken();
   }
 

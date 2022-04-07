@@ -93,6 +93,11 @@ class Questions extends React.Component {
     });
   }
 
+  playAgain = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
   render() {
     const { question } = this.props;
     const { isLoading, position, answers, isNext, isDisable } = this.state;
@@ -138,6 +143,14 @@ class Questions extends React.Component {
                     Next
                   </button>)}
 
+                <button
+                  type="button"
+                  onClick={ this.playAgain }
+                  data-testid="btn-play-again"
+                >
+                  Play again
+                </button>
+
               </section>
             //   <Question
             //     questionAPI={ question.results[0].question }
@@ -167,4 +180,7 @@ Questions.propTypes = {
   token: PropTypes.instanceOf(Object).isRequired,
   fetchQuestions: PropTypes.func.isRequired,
   question: PropTypes.arrayOf(PropTypes.string).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
