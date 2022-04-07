@@ -21,12 +21,12 @@ class Questions extends React.Component {
   async componentDidMount() {
     const { token, fetchQuestions } = this.props;
     await fetchQuestions(token);
-
+    const { position } = this.state;
     const { question } = this.props;
-    const incorrects = question.results[0]
+    const incorrects = question.results[position]
       .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
     const corrects = {
-      answersOption: question.results[0]
+      answersOption: question.results[position]
         .correct_answer,
       isCorrect: true,
     };
@@ -80,7 +80,7 @@ class Questions extends React.Component {
       const incorrects = question.results[position]
         .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
       const corrects = {
-        answersOption: question.results[0]
+        answersOption: question.results[position]
           .correct_answer,
         isCorrect: true,
       };
