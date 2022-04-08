@@ -1,5 +1,5 @@
 import md5 from 'crypto-js/md5';
-import { SEND_INFO, GET_QUESTION } from '../Action';
+import { SEND_INFO, GET_QUESTION, SEND_SCORE } from '../Action';
 
 const INITIAL_STATE = {
   name: '',
@@ -21,6 +21,12 @@ const player = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       question: action.question,
+    };
+  case SEND_SCORE:
+    return {
+      ...state,
+      assertions: state.assertions + action.score.correctAnswer,
+      score: state.score + action.score.score,
     };
   default:
     return state;

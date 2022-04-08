@@ -18,7 +18,6 @@ class Login extends React.Component {
 
   componentDidMount() {
     const { fetchToken } = this.props;
-    console.log('oi');
     fetchToken();
   }
 
@@ -58,36 +57,45 @@ class Login extends React.Component {
 
     return (
       <main>
-        <img src={ logo } className="App-logo" alt="logo" />
-        <input
-          type="text"
-          name="name"
-          data-testid="input-player-name"
-          value={ name }
-          onChange={ this.handleChange }
-        />
-        <input
-          type="email"
-          name="email"
-          data-testid="input-gravatar-email"
-          value={ email }
-          onChange={ this.handleChange }
-        />
-        <button
-          type="button"
-          data-testid="btn-play"
-          disabled={ btnDisabled }
-          onClick={ this.handleClickButton }
-        >
-          Play
-        </button>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-        >
-          Configuração
-        </button>
+        <div>
+          <div className="login">
+            <img src={ logo } className="App-logo" alt="logo" />
+          </div>
+          <br />
+          <input
+            type="text"
+            name="name"
+            data-testid="input-player-name"
+            value={ name }
+            onChange={ this.handleChange }
+            placeholder="Nome"
+          />
+          <input
+            type="email"
+            name="email"
+            data-testid="input-gravatar-email"
+            value={ email }
+            onChange={ this.handleChange }
+            placeholder="Email"
+          />
+          <br />
+          <button
+            type="button"
+            data-testid="btn-play"
+            disabled={ btnDisabled }
+            onClick={ this.handleClickButton }
+          >
+            Play
+          </button>
+          <br />
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/settings') }
+          >
+            Configuração
+          </button>
+        </div>
       </main>
     );
   }
