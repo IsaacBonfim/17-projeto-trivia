@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestions, getScore } from '../Action';
@@ -97,6 +98,7 @@ class Questions extends React.Component {
     setTimeout(() => {
       this.setState({
         isDisable: true,
+        isNext: true,
       });
     }, seconds);
   }
@@ -125,27 +127,28 @@ class Questions extends React.Component {
       score: 0,
     });
 
-    this.setState(({ position }) => ({
-      position: position === question.results.length - 1 ? 0
-        : position + 1,
-      isNext: false,
-    }), () => {
-      const { position } = this.state;
-      const incorrects = question.results[position]
-        .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
-      const corrects = {
-        answersOption: question.results[position]
-          .correct_answer,
-        isCorrect: true,
-      };
-      const array = [...incorrects, corrects];
-      const consttest = this.shuffleArray(array);
-
-      this.setState({
-        isLoading: false,
-        answers: consttest,
+    const { position } = this.state;
+    const MAX_LENGTH = 5;
+    if (position < MAX_LENGTH) {
+      this.setState((prevState) => ({
+        position: prevState.position + 1,
+        isNext: false,
+      }), () => {
+        const incorrects = question.results[position]
+          .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
+        const corrects = {
+          answersOption: question.results[position]
+            .correct_answer,
+          isCorrect: true,
+        };
+        const array = [...incorrects, corrects];
+        const consttest = this.shuffleArray(array);
+        this.setState({
+          isLoading: false,
+          answers: consttest,
+        });
       });
-    });
+    }
   }
 
   playAgain = () => {
@@ -155,10 +158,12 @@ class Questions extends React.Component {
 
   render() {
     const { question } = this.props;
-    const {
-      isLoading,
-      position, answers, isNext, isDisable, timer } = this.state;
+    const { isLoading, position, answers, isNext, isDisable, timer } = this.state;
 
+    const MAX_LENGTH = 5;
+    if (position === MAX_LENGTH) {
+      return <Redirect to="/feedback" />;
+    }
     return (
       <section>
         <p>{ `Tempo: ${timer}` }</p>

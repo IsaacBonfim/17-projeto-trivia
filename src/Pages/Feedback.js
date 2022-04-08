@@ -5,26 +5,44 @@ import Header from '../Components/Header';
 
 class Feedback extends React.Component {
   render() {
-    const { score } = this.props;
-    const minScore = 3;
+    const { assertions, history } = this.props;
+    const min = 3;
 
     return (
       <section>
         <Header />
         <h3 data-testid="feedback-text">
-          { score >= minScore ? 'Well Done!' : 'Could be better...' }
+          { assertions >= min ? 'Well Done!' : 'Could be better...' }
         </h3>
+        <button
+          type="button"
+          onClick={ () => history.push('/') }
+          data-testid="btn-play-again"
+        >
+          Play again
+        </button>
+
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
       </section>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  score: state.player.score,
+  assertions: state.player.assertions,
 });
 
 Feedback.propTypes = {
-  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps, null)(Feedback);
