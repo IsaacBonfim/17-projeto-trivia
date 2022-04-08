@@ -1,6 +1,7 @@
 export const TOKEN = 'TOKEN';
 export const SEND_INFO = 'SEND_INFO';
 export const GET_QUESTION = 'GET_QUESTION';
+export const SEND_SCORE = 'SEND_SCORE';
 
 export const apiToken = (token) => (
   {
@@ -13,6 +14,12 @@ export const getQuestion = (question) => (
   {
     type: GET_QUESTION,
     question,
+  }
+);
+export const getScore = (score) => (
+  {
+    type: SEND_SCORE,
+    score,
   }
 );
 

@@ -2,9 +2,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getQuestions } from '../Action';
+import { getQuestions, getScore } from '../Action';
 // import Question from './Question';
 
+const dataTestId = 'data-testid';
+const dataTestIdCorrectAnswer = 'correct-answer';
 class Questions extends React.Component {
   constructor() {
     super();
@@ -15,6 +17,10 @@ class Questions extends React.Component {
       answers: [],
       isDisable: false,
       isNext: false,
+      stopTime: false,
+      timer: 30,
+      correctAnswer: 0,
+      score: 0,
     };
   }
 
@@ -39,6 +45,8 @@ class Questions extends React.Component {
     });
 
     this.couter();
+    const second = 1000;
+    setInterval(() => this.contador(), second);
   }
 
   shuffleArray = (array) => {
@@ -46,18 +54,46 @@ class Questions extends React.Component {
     return array.sort(() => Math.random() - NUMBER);
   }
 
-  nextAnswer = ({ target }) => {
+  handlerAnswer = ({ target }) => {
     this.setState({ isNext: true });
     const li = target.parentNode;
     const buttons = li.childNodes;
     buttons.forEach((button) => {
-      const dataTest = button.getAttribute('data-testid');
+      const dataTest = button.getAttribute(dataTestId);
       if (dataTest === 'correct-answer') {
         button.className = 'green-border';
       } else {
         button.className = 'red-border';
       }
     });
+    const correct = target.getAttribute(dataTestId);
+    const difficulty = target.getAttribute('name');
+    const teen = 10;
+    const tree = 3;
+    const two = 2;
+    console.log(correct, difficulty);
+    const { correctAnswer, timer } = this.state;
+    // const { sendScore } = this.props;
+    
+    if (difficulty === 'hard' && correct === dataTestIdCorrectAnswer) {
+      this.setState({
+        stopTime: true,
+        correctAnswer: correctAnswer + 1,
+        score: teen + (timer * tree),
+      });
+    } else if (difficulty === 'medium' && correct === dataTestIdCorrectAnswer) {
+      this.setState({
+        stopTime: true,
+        correctAnswer: correctAnswer + 1,
+        score: teen + (timer * two),
+      });
+    } else if (difficulty === 'easy' && correct === dataTestIdCorrectAnswer) {
+      this.setState({
+        stopTime: true,
+        correctAnswer: correctAnswer + 1,
+        score: teen + timer,
+      });
+    }
   }
 
   couter = () => {
@@ -68,9 +104,29 @@ class Questions extends React.Component {
       });
     }, seconds);
   }
-
+  contador = () => {
+    const second = 1;
+    const { timer, stopTime } = this.state;
+    if (!stopTime) {
+      this.setState({
+        timer: timer > 0 ? timer - second : 0,
+      });
+    } else {
+      this.setState({
+        timer,
+      });
+    }
+  }
   nextQuestion = () => {
-    const { question } = this.props;
+    const { question, sendScore } = this.props;
+    sendScore(this.state);
+    this.setState({
+      timer: 30,
+      stopTime: false,
+      correctAnswer: 0,
+      score: 0,
+    });
+    
     this.setState(({ position }) => ({
       position: position === question.results.length - 1 ? 0
         : position + 1,
@@ -100,10 +156,17 @@ class Questions extends React.Component {
 
   render() {
     const { question } = this.props;
-    const { isLoading, position, answers, isNext, isDisable } = this.state;
+    const {
+      isLoading,
+      position,
+      answers,
+      isNext, isDisable, timer, correctAnswer, score } = this.state;
 
     return (
       <section>
+        <p>
+          { `Tempo: ${timer}  / Número de Acertos: ${correctAnswer}  / Score: ${score} ` }
+        </p>
         {
           isLoading
             ? <h1>Loading...</h1>
@@ -120,12 +183,13 @@ class Questions extends React.Component {
                       <button
                         key={ index }
                         id={ index }
+                        name={ question.results[position].difficulty }
                         type="button"
                         data-testid={ elem.isCorrect
                           ? 'correct-answer'
                           : `wrong-answer-${answers.findIndex((ind) => ind
                             .isCorrect) < index ? index - 1 : index}` }
-                        onClick={ this.nextAnswer }
+                        onClick={ this.handlerAnswer }
                         disabled={ isDisable }
                       >
                         { elem.answersOption }
@@ -172,6 +236,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchQuestions: (token) => dispatch(getQuestions(token)),
+  sendScore: (score) => dispatch(getScore(score)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Questions);
@@ -179,6 +244,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(Questions);
 Questions.propTypes = {
   token: PropTypes.instanceOf(Object).isRequired,
   fetchQuestions: PropTypes.func.isRequired,
+  sendScore: PropTypes.func.isRequired,
   question: PropTypes.arrayOf(PropTypes.string).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,

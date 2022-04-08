@@ -7,7 +7,7 @@ class Game extends React.Component {
   render() {
     const { history } = this.props;
     return (
-      <section>
+      <section className="game">
         <Header />
         <Questions history={ history } />
       </section>
