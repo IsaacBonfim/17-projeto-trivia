@@ -4,6 +4,22 @@ import { connect } from 'react-redux';
 import Header from '../Components/Header';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    const { assertions, score, name, picture } = this.props;
+    const storage = JSON.parse(localStorage.getItem('ranking'));
+    const obj = {
+      name,
+      score,
+      assertions,
+      picture,
+    };
+    if (storage) {
+      localStorage.setItem('ranking', JSON.stringify([...storage, obj]));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([obj]));
+    }
+  }
+
   render() {
     const { assertions, score, history } = this.props;
     const min = 3;
@@ -39,9 +55,13 @@ class Feedback extends React.Component {
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
+  picture: state.player.gravatarEmail,
+  name: state.player.name,
 });
 
 Feedback.propTypes = {
+  name: PropTypes.string.isRequired,
+  picture: PropTypes.string.isRequired,
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   history: PropTypes.shape({

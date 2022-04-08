@@ -47,7 +47,7 @@ class Login extends React.Component {
     const { sendInfo, history } = this.props;
     const { name, email } = this.state;
 
-    sendInfo({ email, name });
+    sendInfo({ email, name, assertions: 0, score: 0 });
     history.push('/game');
   }
 
