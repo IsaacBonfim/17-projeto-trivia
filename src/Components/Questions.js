@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { getQuestions } from '../Action';
 // import Question from './Question';
 
 class Questions extends React.Component {
@@ -70,6 +71,7 @@ class Questions extends React.Component {
 
   nextQuestion = () => {
     const { question } = this.props;
+
     this.setState(({ position }) => ({
       position: position === question.results.length - 1 ? 0
         : position + 1,
@@ -85,6 +87,7 @@ class Questions extends React.Component {
       };
       const array = [...incorrects, corrects];
       const consttest = this.shuffleArray(array);
+
       this.setState({
         isLoading: false,
         answers: consttest,
