@@ -1,15 +1,48 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../Components/Header';
 
 class Feedback extends React.Component {
   render() {
+    const { assertions, history } = this.props;
+    const min = 3;
+
     return (
       <section>
         <Header />
-        <p data-testid="feedback-text">Parabéns!!! </p>
+        <h3 data-testid="feedback-text">
+          { assertions >= min ? 'Well Done!' : 'Could be better...' }
+        </h3>
+        <button
+          type="button"
+          onClick={ () => history.push('/') }
+          data-testid="btn-play-again"
+        >
+          Play again
+        </button>
+
+        <button
+          type="button"
+          data-testid="btn-ranking"
+          onClick={ () => history.push('/ranking') }
+        >
+          Ranking
+        </button>
       </section>
     );
   }
 }
 
-export default Feedback;
+const mapStateToProps = (state) => ({
+  assertions: state.player.assertions,
+});
+
+Feedback.propTypes = {
+  assertions: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+export default connect(mapStateToProps, null)(Feedback);
