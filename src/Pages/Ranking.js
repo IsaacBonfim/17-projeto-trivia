@@ -29,7 +29,7 @@ class Ranking extends React.Component {
             <li key={ index }>
               <p data-testid={ `player-name-${index}` }>{ name }</p>
               <p data-testid={ `player-score-${index}` }>{ score }</p>
-              <img src={ picture } alt={ name } />
+              <img src={ `https://www.gravatar.com/avatar/${picture}` } alt={ name } />
             </li>
           )) }
         </ol>
