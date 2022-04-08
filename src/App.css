@@ -1,9 +1,19 @@
+main, .game {
+  padding: 20px;
+}
+
 .App {
   text-align: center;
 }
 
+.login, header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .App-logo {
-  height: 40vmin;
+  height: 25vmin;
   pointer-events: none;
 }
 
@@ -54,4 +64,8 @@
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+}
+
+.nameScore {
+  width: 380px;
 }
