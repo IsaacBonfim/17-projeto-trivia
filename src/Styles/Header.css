@@ -1,0 +1,39 @@
+.game {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.header-main {
+  align-items: center;
+  background-image:
+    linear-gradient(360deg,
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(0, 155, 255, 1) 80%
+    );
+  display: flex;
+  flex-wrap: wrap;
+  height: 150px;
+  justify-content: center;
+}
+
+.header-image {
+  border-radius: 100%;
+  margin: 15px;
+}
+
+.nameScore {
+  background-color: rgba(0, 0, 50, 0.5);
+  background-image:
+    linear-gradient(360deg,
+    rgba(0, 0, 50, 0.5) 0%, 
+    rgba(0, 155, 255, 0.3) 50%
+    );
+  border-radius: 10px;
+  color: white;
+  font-family: Anek Tamil, sans-serif;
+  font-weight: 800;
+  height: 130px;
+  padding: 0 10px;
+  width: 380px;
+}

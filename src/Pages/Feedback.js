@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../Components/Header';
+import '../Styles/Feedback.css';
 
 class Feedback extends React.Component {
   componentDidMount() {
@@ -22,32 +23,59 @@ class Feedback extends React.Component {
 
   render() {
     const { assertions, score, history } = this.props;
-    const min = 3;
+    const min = 0;
 
     return (
-      <section>
+      <>
         <Header />
-        <h3 data-testid="feedback-text">
-          { assertions >= min ? 'Well Done!' : 'Could be better...' }
-        </h3>
-        <p data-testid="feedback-total-score">{ score }</p>
-        <p data-testid="feedback-total-question">{ assertions }</p>
-        <button
-          type="button"
-          onClick={ () => history.push('/') }
-          data-testid="btn-play-again"
-        >
-          Play again
-        </button>
+        <section className="feedback-container">
+          { assertions >= min ? (
+            <span
+              className="well-done"
+              data-testid="feedback-text"
+            >
+              Well Done!
+            </span>)
+            : (
+              <span
+                className="could-be-better"
+                data-testid="feedback-text"
+              >
+                Could be better...
+              </span>
+            )}
+          <div className="feedback-result">
+            <div className="feedback-score-div">
+              <span>Total Score:</span>
+              <span data-testid="feedback-total-score">{ score }</span>
+            </div>
+            <div className="feedback-answers-div">
+              <span>Total Correct Answers:</span>
+              <span data-testid="feedback-total-question">{ assertions }</span>
+            </div>
+          </div>
 
-        <button
-          type="button"
-          data-testid="btn-ranking"
-          onClick={ () => history.push('/ranking') }
-        >
-          Ranking
-        </button>
-      </section>
+          <div className="feedback-buttons">
+            <button
+              type="button"
+              className="play-again"
+              onClick={ () => history.push('/') }
+              data-testid="btn-play-again"
+            >
+              Play again
+            </button>
+
+            <button
+              type="button"
+              className="ranking-button"
+              data-testid="btn-ranking"
+              onClick={ () => history.push('/ranking') }
+            >
+              Ranking
+            </button>
+          </div>
+        </section>
+      </>
     );
   }
 }

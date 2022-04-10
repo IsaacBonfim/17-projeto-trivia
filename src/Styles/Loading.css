@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
+
+.loading-container{
+  align-items: center;
+  display: flex;
+  height: 150px;
+  justify-content: center;
+}
+
+.loadig-effect-container {
+  align-items: center;
+  display: flex;
+  height: 140px;
+  justify-content: center;
+  margin: 10px;
+  width: 110px;
+}
+
+.loading-text {
+  animation: effect 2.5s ease-in infinite;
+  color: transparent;
+  font-family: Luckiest Guy , cursive;
+  font-size: 50px;
+  font-weight: 100;
+  position: relative;
+}
+
+.loading-text:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.loading-text:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-text:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.loading-text:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.loading-text:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.loading-text:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+.loading-text:nth-child(7) {
+  animation-delay: 0.7s;
+}
+
+.loading-text:nth-child(8) {
+  animation-delay: 0.8s;
+}
+
+.loading-text:nth-child(9) {
+  animation-delay: 0.9s;
+}
+
+.loading-text:nth-child(10) {
+  animation-delay: 1s;
+}
+
+.loading-text:nth-child(11) {
+  animation-delay: 1.1s;
+}
+
+.loading-effect {
+  animation: loading 2s infinite;
+  aspect-ratio: 1;
+  border: 8px double #000;
+  border-radius: 50%;
+  width: 75px;
+}
+
+/* @keyframes loading {
+  0%   {
+    border-color: rgba(153, 227, 255, 1);
+    width: 50px;
+  }
+  25%  {
+    border-color: rgba(102, 213, 255, 1);
+    width: 75px;
+  }
+  50%  {
+    border-color: rgba(51, 199, 255, 1);
+    width: 25px;
+  }
+  75%  {
+    border-color: rgba(0, 185, 255, 1);
+    width: 100px;
+  }
+  100% {
+    border-color: rgba(0, 171, 255, 1);
+    width: 50px;
+  }
+} */
+
+@keyframes effect {
+  100% {
+    text-shadow: 
+      0 2px 0 rgba(160, 250, 250, 1),
+      0 3px 0 rgba(150, 240, 240, 1), 
+      0 4px 0 rgba(140, 230, 230, 1), 
+      0 5px 0 rgba(130, 220, 220, 1),
+      0 6px 0 rgba(120, 210, 210, 1), 
+      0 7px 0 rgba(110, 200, 200, 1), 
+      0 8px 0 rgba(100, 190, 190, 1), 
+      0 9px 0 rgba(90, 180, 180, 1), 
+      0 10px 0 rgba(80, 170, 170, 1),
+      0 11px 0 rgba(70, 160, 160, 1),
+      0 50px 25px rgba(0, 0, 100, 0.1);
+  }
+}

@@ -1,0 +1,154 @@
+.questions-container {
+  align-items: center;
+  background-image:
+    linear-gradient(180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(0, 185, 255, 1) 30%,
+    rgba(0, 185, 255, 1) 60%,
+    rgba(255, 255, 255, 1) 95%
+    );
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-evenly;
+  margin: 12px;
+  padding: 12px;
+  width: 60vw;
+}
+
+.question-category {
+  color: rgba(0, 100, 200, 1);
+  font-family: Luckiest Guy , cursive;
+  font-size: 32px;
+  font-weight: 100;
+}
+
+.question-text {
+  color: black;
+  font-family: Anek Tamil, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.question-ul {
+  align-items: center;
+  align-self: center;
+  display: flex;
+  height: 50px;
+  padding: 0;
+  margin: 0;
+}
+
+.question-li {
+  align-items: center;
+  display: flex;
+  height: 40px;
+  list-style: none;
+}
+
+.question-answer {
+  background-image:
+    linear-gradient(180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(200, 200, 200, 0.5) 90%
+  );
+  border: 1px solid lightblue;
+  border-radius: 8px;
+  margin: 0 8px;
+  padding: 8px 0;
+  width: 150px;
+}
+
+.question-answer:hover {
+  background-image:
+    linear-gradient(180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(0, 0, 0, 0.5) 90%
+  );
+  border: 3px solid lightgray;
+  border-radius: 8px;
+  margin: 0 8px;
+  padding: 8px 0;
+  width: 150px;
+}
+
+.red-border {
+  background-image:
+    linear-gradient(180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 0, 0, 0.5) 95%
+    );
+  border: 3px solid red;
+  border-radius: 8px;
+  margin: 0 8px;
+  padding: 8px 0;
+  width: 150px;
+}
+
+.green-border {
+  background-image:
+    linear-gradient(180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(6, 240, 15, 0.5) 95%
+  );
+  border: 3px solid rgb(6, 240, 15);
+  border-radius: 8px;
+  margin: 0 8px;
+  padding: 8px 0;
+  width: 150px;
+}
+
+.question-next {
+  background-image: 
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 1) 0%, 
+      rgba(0, 155, 255, 1) 80%
+    );
+  border: 2px solid transparent;
+  border-radius: 5px;
+  color: rgba(0, 85, 185, 1);
+  font-weight: 800;
+  padding: 4px;
+  width: 100px;
+}
+
+.question-next:hover {
+  background-image: 
+    linear-gradient(360deg,
+      rgba(255, 255, 255, 1) 0%, 
+      rgba(0, 155, 255, 1) 80%
+    );
+  border: 2px solid transparent;
+  border-radius: 5px;
+  color: rgba(0, 85, 185, 1);
+  font-weight: 800;
+  padding: 4px;
+  width: 100px;
+}
+
+.play-again {
+  background-image:
+    linear-gradient(360deg,
+    rgba(0, 0, 50, 0.5) 0%, 
+    rgba(0, 155, 255, 0.3) 70%
+    );
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  font-family: Anek Tamil, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  margin: 8px;
+  padding: 8px 24px;
+}
+
+.play-again:hover {
+  background-image:
+    linear-gradient(180deg,
+    rgba(0, 0, 50, 0.5) 0%, 
+    rgba(0, 155, 255, 0.3) 50%
+    );
+  border: 1px solid transparent;
+}

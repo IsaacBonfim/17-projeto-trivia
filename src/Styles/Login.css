@@ -1,0 +1,83 @@
+* {
+  box-sizing: border-box;
+}
+
+.login-header {
+  align-items: center;
+  background-image:
+    linear-gradient(360deg,
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(0, 155, 255, 1) 80%
+    );
+  display: flex;
+  flex-wrap: wrap;
+  height: 200px;
+  justify-content: space-between;
+}
+
+.login-container-main {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  justify-content: space-evenly;
+}
+
+.login-container {
+  align-items: center;
+  background-image:
+    linear-gradient(180deg,
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(0, 185, 255, 1) 50%,
+    rgba(255, 255, 255, 1) 90%
+    );
+  border-radius: 16px;  
+  display: flex;
+  flex-direction: column;
+  height: 60%;
+  justify-content: center;
+  width: 300px;
+}
+
+.login-input {
+  border: 1px solid rgba(200, 200, 200, 1);
+  border-radius: 5px;
+  box-shadow: 1px 2px 3px inset lightblue;
+  margin: 8px;
+  padding: 4px;
+}
+
+.login-play-button {
+  background-image: 
+    linear-gradient(180deg,
+      rgba(255, 255, 255, 1) 0%, 
+      rgba(125, 225, 255, 1) 80%
+    );
+  border: 2px solid transparent;
+  border-radius: 5px;
+  color: rgba(0, 155, 255, 1);
+  font-weight: 800;
+  padding: 4px;
+  width: 100px;
+}
+
+.login-play-button:hover {
+  background-image: 
+    linear-gradient(360deg,
+      rgba(255, 255, 255, 1) 0%, 
+      rgba(125, 225, 255, 1) 80%
+    );
+  color: rgba(0, 55, 155, 1);
+}
+
+.login-settings-button {
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  padding: 4px 16px;
+  width: 120px;
+}
+
+.login-settings-button:hover {
+  border: 2px solid lightgray;
+  font-weight: 800;
+}
