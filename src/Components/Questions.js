@@ -40,7 +40,7 @@ class Questions extends React.Component {
     const array = [...incorrects, corrects];
     const consttest = this.shuffleArray(array);
     this.setState({ isLoading: false, answers: consttest });
-    this.couter();
+    // this.couter();
     const second = 1000;
     setInterval(() => this.contador(), second);
   }
@@ -90,18 +90,23 @@ class Questions extends React.Component {
     }
   }
 
-  couter = () => {
-    const seconds = 30000;
-    setTimeout(() => {
-      this.setState({ isDisable: true, isNext: true });
-    }, seconds);
-  }
+  // couter = () => {
+  //   const seconds = 30000;
+  //   setTimeout(() => {
+  //     this.setState({ isDisable: true, isNext: true });
+  //   }, seconds);
+  // }
 
   contador = () => {
     const second = 1;
     const { timer, stopTime } = this.state;
     if (!stopTime) {
-      this.setState({ timer: timer > 0 ? timer - second : 0 });
+      this.setState({ timer: timer > 0 ? timer - second : 0 },
+        () => {
+          if (timer === 0) {
+            this.setState({ isDisable: true, isNext: true });
+          }
+        });
     } else {
       this.setState({ timer });
     }
@@ -110,7 +115,13 @@ class Questions extends React.Component {
   nextQuestion = () => {
     const { question } = this.props;
 
-    this.setState({ timer: 30, stopTime: false, correctAnswer: 0, score: 0 });
+    this.setState({
+      timer: 30,
+      stopTime: false,
+      correctAnswer: 0,
+      score: 0,
+      isDisable: false,
+    });
 
     const { position } = this.state;
     const MAX_LENGTH = 5;
@@ -185,12 +196,6 @@ class Questions extends React.Component {
                     Next
                   </button>)}
               </section>
-            //   <Question
-            //     questionAPI={ question.results[0].question }
-            //     category={ question.results[0].category }
-            //     correctAnswer={ question.results[0].correct_answer }
-            //     incorrectAnswers={ question.results[0].incorrect_answers[0] }
-            //   />  ---  favor nao apagar.
             )
         }
       </>
