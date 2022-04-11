@@ -116,7 +116,7 @@ class Questions extends React.Component {
       stopTime: false,
       correctAnswer: 0,
       score: 0,
-
+      isDisable: false,
     }), () => {
       const { position } = this.state;
       if (position === 0) {
