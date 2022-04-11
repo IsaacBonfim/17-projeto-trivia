@@ -41,18 +41,18 @@ class Ranking extends React.Component {
                     src={ `https://www.gravatar.com/avatar/${picture}` }
                     alt={ name }
                   />
-                  <p
+                  <span
                     className="rankin-player-name"
                     data-testid={ `player-name-${index}` }
                   >
                     { name }
-                  </p>
-                  <p
+                  </span>
+                  <span
                     className="rankin-player-score"
                     data-testid={ `player-score-${index}` }
                   >
                     { score }
-                  </p>
+                  </span>
                 </li>
               )) }
             </ol>
