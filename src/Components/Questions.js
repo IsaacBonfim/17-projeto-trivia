@@ -1,8 +1,9 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestions, getScore } from '../Action';
+import Loading from './Loading';
+import '../Styles/Questions.css';
 
 const dataTestId = 'data-testid';
 const dataTestIdCorrectAnswer = 'correct-answer';
@@ -32,24 +33,18 @@ class Questions extends React.Component {
     const incorrects = question.results[position]
       .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
     const corrects = {
-      answersOption: question.results[position]
-        .correct_answer,
+      answersOption: question.results[position].correct_answer,
       isCorrect: true,
     };
     const array = [...incorrects, corrects];
     const consttest = this.shuffleArray(array);
-    this.setState({
-      isLoading: false,
-      answers: consttest,
-    });
-    this.couter();
+    this.setState({ isLoading: false, answers: consttest });
     const second = 1000;
-    setInterval(() => this.contador(), second);
+    this.timer = setInterval(() => this.contador(), second);
   }
 
-  shuffleArray = (array) => {
-    const NUMBER = 0.5;
-    return array.sort(() => Math.random() - NUMBER);
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   handlerAnswer = ({ target }) => {
@@ -69,7 +64,6 @@ class Questions extends React.Component {
     const teen = 10;
     const tree = 3;
     const two = 2;
-    console.log(correct, difficulty);
     const { correctAnswer, timer } = this.state;
     const { sendScore } = this.props;
     if (difficulty === 'hard' && correct === dataTestIdCorrectAnswer) {
@@ -93,97 +87,81 @@ class Questions extends React.Component {
     }
   }
 
-  couter = () => {
-    const seconds = 30000;
-    setTimeout(() => {
-      this.setState({
-        isDisable: true,
-        isNext: true,
-      });
-    }, seconds);
-  }
-
   contador = () => {
     const second = 1;
     const { timer, stopTime } = this.state;
     if (!stopTime) {
-      this.setState({
-        timer: timer > 0 ? timer - second : 0,
+      this.setState({ timer: timer > 0 ? timer - second : 0 }, () => {
+        if (timer === 0) {
+          this.setState({ isDisable: true, isNext: true });
+        }
       });
     } else {
-      this.setState({
-        timer,
-      });
+      this.setState({ timer });
     }
   }
 
-  nextQuestion = () => {
-    const { question } = this.props;
+  shuffleArray = (array) => {
+    const NUMBER = 0.5;
+    return array.sort(() => Math.random() - NUMBER);
+  }
 
-    this.setState({
+  nextQuestion = () => {
+    const { question, history } = this.props;
+    const MAX_LENGTH = 4;
+    this.setState((prevState) => ({
+      position: prevState.position < MAX_LENGTH ? prevState.position + 1 : 0,
+      isNext: false,
       timer: 30,
       stopTime: false,
       correctAnswer: 0,
       score: 0,
-    });
-
-    const { position } = this.state;
-    const MAX_LENGTH = 5;
-    if (position < MAX_LENGTH) {
-      this.setState((prevState) => ({
-        position: prevState.position + 1,
-        isNext: false,
-      }), () => {
+      isDisable: false,
+    }), () => {
+      const { position } = this.state;
+      if (position === 0) {
+        history.push('/feedback');
+      } else {
         const incorrects = question.results[position]
           .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
         const corrects = {
-          answersOption: question.results[position]
-            .correct_answer,
+          answersOption: question.results[position].correct_answer,
           isCorrect: true,
         };
         const array = [...incorrects, corrects];
         const consttest = this.shuffleArray(array);
-        this.setState({
-          isLoading: false,
-          answers: consttest,
-        });
-      });
-    }
-  }
-
-  playAgain = () => {
-    const { history } = this.props;
-    history.push('/');
+        this.setState({ isLoading: false, answers: consttest });
+      }
+    });
   }
 
   render() {
     const { question } = this.props;
     const { isLoading, position, answers, isNext, isDisable, timer } = this.state;
 
-    const MAX_LENGTH = 5;
-    if (position === MAX_LENGTH) {
-      return <Redirect to="/feedback" />;
-    }
     return (
-      <section>
-        <p>{ `Tempo: ${timer}` }</p>
+      <>
+        <p className="game-timer">{ `Tempo: ${timer}` }</p>
         {
           isLoading
-            ? <h1>Loading...</h1>
+            ? <Loading />
             : (
-              <section>
-                <h1 data-testid="question-category">
+              <section className="questions-container">
+                <h1 data-testid="question-category" className="question-category">
                   { question.results[position].category }
                 </h1>
-                <p data-testid="question-text">{ question.results[position].question }</p>
-                <ul>
-                  <li data-testid="answer-options">
+                <p data-testid="question-text" className="question-text">
+                  { question.results[position].question }
+                </p>
+                <ul className="question-ul">
+                  <li data-testid="answer-options" className="question-li">
                     { answers.map((elem, index) => (
                       <button
                         key={ index }
                         id={ index }
                         name={ question.results[position].difficulty }
                         type="button"
+                        className="question-answer"
                         data-testid={ elem.isCorrect
                           ? 'correct-answer'
                           : `wrong-answer-${answers.findIndex((ind) => ind
@@ -200,29 +178,16 @@ class Questions extends React.Component {
                 && (
                   <button
                     type="button"
+                    className="question-next"
                     data-testid="btn-next"
                     onClick={ this.nextQuestion }
                   >
                     Next
                   </button>)}
-
-                <button
-                  type="button"
-                  onClick={ this.playAgain }
-                  data-testid="btn-play-again"
-                >
-                  Play again
-                </button>
               </section>
-            //   <Question
-            //     questionAPI={ question.results[0].question }
-            //     category={ question.results[0].category }
-            //     correctAnswer={ question.results[0].correct_answer }
-            //     incorrectAnswers={ question.results[0].incorrect_answers[0] }
-            //   />  ---  favor nao apagar.
             )
         }
-      </section>
+      </>
     );
   }
 }
@@ -236,8 +201,6 @@ const mapDispatchToProps = (dispatch) => ({
   sendScore: (score) => dispatch(getScore(score)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Questions);
-
 Questions.propTypes = {
   token: PropTypes.instanceOf(Object).isRequired,
   fetchQuestions: PropTypes.func.isRequired,
@@ -247,3 +210,5 @@ Questions.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);

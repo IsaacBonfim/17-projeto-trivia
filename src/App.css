@@ -8,21 +8,11 @@ main, .game {
 
 .login, header {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .App-logo {
   height: 25vmin;
   pointer-events: none;
-}
-
-.red-border {
-  border: 3px solid red;
-}
-
-.green-border {
-  border: 3px solid rgb(6, 240, 15);
 }
 
 @media ( prefers-reduced-motion : no-preference ) {
@@ -64,8 +54,4 @@ main, .game {
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
-}
-
-.nameScore {
-  width: 380px;
 }

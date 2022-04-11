@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getRanking from '../Helpers';
+import '../Styles/Ranking.css';
 
 class Ranking extends React.Component {
   constructor() {
@@ -21,26 +22,51 @@ class Ranking extends React.Component {
     const { history } = this.props;
     const { ranking } = this.state;
     return (
-      <section>
-        <h1 data-testid="ranking-title">Ranking:</h1>
-
-        <ol>
-          { ranking.map(({ name, score, picture }, index) => (
-            <li key={ index }>
-              <p data-testid={ `player-name-${index}` }>{ name }</p>
-              <p data-testid={ `player-score-${index}` }>{ score }</p>
-              <img src={ `https://www.gravatar.com/avatar/${picture}` } alt={ name } />
-            </li>
-          )) }
-        </ol>
-        <button
-          type="button"
-          data-testid="btn-go-home"
-          onClick={ () => history.push('/') }
-        >
-          Voltar
-        </button>
-      </section>
+      <>
+        <header className="ranking-header">
+          <span
+            className="ranking-title"
+            data-testid="ranking-title"
+          >
+            Ranking
+          </span>
+        </header>
+        <main className="ranking-main">
+          <section className="ranking-container">
+            <ol className="ranking-list">
+              { ranking.map(({ name, score, picture }, index) => (
+                <li key={ index } className="ranking-list-item">
+                  <img
+                    className="rankin-img"
+                    src={ `https://www.gravatar.com/avatar/${picture}` }
+                    alt={ name }
+                  />
+                  <span
+                    className="rankin-player-name"
+                    data-testid={ `player-name-${index}` }
+                  >
+                    { name }
+                  </span>
+                  <span
+                    className="rankin-player-score"
+                    data-testid={ `player-score-${index}` }
+                  >
+                    { score }
+                  </span>
+                </li>
+              )) }
+            </ol>
+          </section>
+          <button
+            type="button"
+            className="play-again back-button"
+            data-testid="btn-go-home"
+            onClick={ () => history.push('/') }
+          >
+            Voltar
+          </button>
+        </main>
+      </>
     );
   }
 }
