@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getQuestions, getScore } from '../Action';
@@ -40,14 +39,12 @@ class Questions extends React.Component {
     const array = [...incorrects, corrects];
     const consttest = this.shuffleArray(array);
     this.setState({ isLoading: false, answers: consttest });
-    // this.couter();
     const second = 1000;
-    setInterval(() => this.contador(), second);
+    this.timer = setInterval(() => this.contador(), second);
   }
 
-  shuffleArray = (array) => {
-    const NUMBER = 0.5;
-    return array.sort(() => Math.random() - NUMBER);
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   handlerAnswer = ({ target }) => {
@@ -90,66 +87,58 @@ class Questions extends React.Component {
     }
   }
 
-  // couter = () => {
-  //   const seconds = 30000;
-  //   setTimeout(() => {
-  //     this.setState({ isDisable: true, isNext: true });
-  //   }, seconds);
-  // }
-
   contador = () => {
     const second = 1;
     const { timer, stopTime } = this.state;
     if (!stopTime) {
-      this.setState({ timer: timer > 0 ? timer - second : 0 },
-        () => {
-          if (timer === 0) {
-            this.setState({ isDisable: true, isNext: true });
-          }
-        });
+      this.setState({ timer: timer > 0 ? timer - second : 0 }, () => {
+        if (timer === 0) {
+          this.setState({ isDisable: true, isNext: true });
+        }
+      });
     } else {
       this.setState({ timer });
     }
   }
 
-  nextQuestion = () => {
-    const { question } = this.props;
+  shuffleArray = (array) => {
+    const NUMBER = 0.5;
+    return array.sort(() => Math.random() - NUMBER);
+  }
 
-    this.setState({
+  nextQuestion = () => {
+    const { question, history } = this.props;
+    const MAX_LENGTH = 4;
+    this.setState((prevState) => ({
+      position: prevState.position < MAX_LENGTH ? prevState.position + 1 : 0,
+      isNext: false,
       timer: 30,
       stopTime: false,
       correctAnswer: 0,
       score: 0,
-      isDisable: false,
+
+    }), () => {
+      const { position } = this.state;
+      if (position === 0) {
+        history.push('/feedback');
+      } else {
+        const incorrects = question.results[position]
+          .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
+        const corrects = {
+          answersOption: question.results[position].correct_answer,
+          isCorrect: true,
+        };
+        const array = [...incorrects, corrects];
+        const consttest = this.shuffleArray(array);
+        this.setState({ isLoading: false, answers: consttest });
+      }
     });
-
-    const { position } = this.state;
-    const MAX_LENGTH = 5;
-
-    if (position < MAX_LENGTH) {
-      this.setState((prevState) => ({ position: prevState.position + 1, isNext: false }),
-        () => {
-          const incorrects = question.results[position]
-            .incorrect_answers.map((inc) => ({ answersOption: inc, isCorrect: false }));
-          const corrects = {
-            answersOption: question.results[position].correct_answer,
-            isCorrect: true,
-          };
-          const array = [...incorrects, corrects];
-          const consttest = this.shuffleArray(array);
-          this.setState({ isLoading: false, answers: consttest });
-        });
-    }
   }
 
   render() {
     const { question } = this.props;
     const { isLoading, position, answers, isNext, isDisable, timer } = this.state;
 
-    const MAX_LENGTH = 5;
-    if (position === MAX_LENGTH) {
-      return <Redirect to="/feedback" />;
-    }
     return (
       <>
         <p className="game-timer">{ `Tempo: ${timer}` }</p>
