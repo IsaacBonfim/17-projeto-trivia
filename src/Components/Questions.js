@@ -109,7 +109,6 @@ class Questions extends React.Component {
   nextQuestion = () => {
     const { question, history } = this.props;
     const MAX_LENGTH = 4;
-
     this.setState((prevState) => ({
       position: prevState.position < MAX_LENGTH ? prevState.position + 1 : 0,
       isNext: false,
@@ -117,9 +116,9 @@ class Questions extends React.Component {
       stopTime: false,
       correctAnswer: 0,
       score: 0,
+
     }), () => {
       const { position } = this.state;
-      console.log(position);
       if (position === 0) {
         history.push('/feedback');
       } else {
@@ -186,12 +185,6 @@ class Questions extends React.Component {
                     Next
                   </button>)}
               </section>
-            //   <Question
-            //     questionAPI={ question.results[0].question }
-            //     category={ question.results[0].category }
-            //     correctAnswer={ question.results[0].correct_answer }
-            //     incorrectAnswers={ question.results[0].incorrect_answers[0] }
-            //   />  ---  favor nao apagar.
             )
         }
       </>

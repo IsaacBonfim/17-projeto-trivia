@@ -36,7 +36,6 @@ class Ranking extends React.Component {
             <ol className="ranking-list">
               { ranking.map(({ name, score, picture }, index) => (
                 <li key={ index } className="ranking-list-item">
-                  {/* <div className="ranking-list-div"> */}
                   <img
                     className="rankin-img"
                     src={ `https://www.gravatar.com/avatar/${picture}` }
@@ -54,7 +53,6 @@ class Ranking extends React.Component {
                   >
                     { score }
                   </p>
-                  {/* </div> */}
                 </li>
               )) }
             </ol>
