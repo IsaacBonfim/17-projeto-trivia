@@ -8,6 +8,8 @@ import '../Styles/Questions.css';
 const dataTestId = 'data-testid';
 const dataTestIdCorrectAnswer = 'correct-answer';
 
+const defaultClass = 'question-answer';
+
 class Questions extends React.Component {
   constructor() {
     super();
@@ -19,6 +21,8 @@ class Questions extends React.Component {
       isDisable: false,
       isNext: false,
       stopTime: false,
+      corretClass: defaultClass,
+      incorrectClass: defaultClass,
       timer: 30,
       correctAnswer: 0,
       score: 0,
@@ -48,16 +52,10 @@ class Questions extends React.Component {
   }
 
   handlerAnswer = ({ target }) => {
-    this.setState({ isNext: true });
-    const li = target.parentNode;
-    const buttons = li.childNodes;
-    buttons.forEach((button) => {
-      const dataTest = button.getAttribute(dataTestId);
-      if (dataTest === dataTestIdCorrectAnswer) {
-        button.className = 'green-border';
-      } else {
-        button.className = 'red-border';
-      }
+    this.setState({
+      isNext: true,
+      corretClass: 'green-border',
+      incorrectClass: 'red-border',
     });
     const correct = target.getAttribute(dataTestId);
     const difficulty = target.getAttribute('name');
@@ -117,6 +115,8 @@ class Questions extends React.Component {
       correctAnswer: 0,
       score: 0,
       isDisable: false,
+      corretClass: defaultClass,
+      incorrectClass: defaultClass,
     }), () => {
       const { position } = this.state;
       if (position === 0) {
@@ -137,7 +137,8 @@ class Questions extends React.Component {
 
   render() {
     const { question } = this.props;
-    const { isLoading, position, answers, isNext, isDisable, timer } = this.state;
+    const { isLoading, position, answers, corretClass, incorrectClass,
+      isNext, isDisable, timer } = this.state;
 
     return (
       <>
@@ -161,7 +162,7 @@ class Questions extends React.Component {
                         id={ index }
                         name={ question.results[position].difficulty }
                         type="button"
-                        className="question-answer"
+                        className={ elem.isCorrect ? corretClass : incorrectClass }
                         data-testid={ elem.isCorrect
                           ? 'correct-answer'
                           : `wrong-answer-${answers.findIndex((ind) => ind
